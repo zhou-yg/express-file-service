@@ -8,7 +8,7 @@ var multer  = require('multer')
 
 var upload = multer({
   dest: 'public/',
-  // size: 10 * 1024 * 1024,
+  limits: '20mb',
 });
 
 var app = express();
@@ -17,14 +17,15 @@ const PUBLIC_DIR = path.join(__dirname, './public');
 
 app.use((req, res, next) => {
   console.log(req.path);
+  console.log(req.headers)
   next();
 });
 
 app.use('/public', express.static(PUBLIC_DIR));
 app.use('/public', serveIndex(PUBLIC_DIR));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({limit: '20mb'}));
+app.use(bodyParser.urlencoded({extended: true, limit: '20mb'}));
 
 /*
 { fieldname: 'file',
