@@ -86,5 +86,22 @@ app.post('/remove', upload.none(), (req, res) => {
   }
 });
 
+app.get('/status', (req, res) => {
+  let fileDest = req.query.path;
+  if (/^\//.test(fileDest)) {
+    fileDest = `.${fileDest}`;
+  }
+  const finalFileDest = path.join(PUBLIC_DIR, fileDest);
+
+  if (fs.existsSync(finalFileDest)) {
+    res.json({
+      size: fs.readFileSync(finalFileDest).length,
+    });
+  } else {
+    res.json({
+      size: 0,
+    });    
+  }
+});
 
 module.exports = app;
