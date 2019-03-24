@@ -19,20 +19,16 @@ app.use((req, res, next) => {
   console.log(req.path);
   console.log(req.headers)
 
-  ctx.set("Access-Control-Allow-Origin", "*");
-  ctx.set("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
-  ctx.set("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+  res.set("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
 
   // console.log(ctx.request);
-  if (ctx.request.method !== 'OPTIONS') {
+  if (req.method !== 'OPTIONS') {
     return next();
   } else {
-    ctx.body = 'options';
-    ctx.status = 200;
+    res.status = 200;
   }
-
-
-  next();
 });
 
 app.use('/public', express.static(PUBLIC_DIR));
