@@ -18,6 +18,20 @@ const PUBLIC_DIR = path.join(__dirname, './public');
 app.use((req, res, next) => {
   console.log(req.path);
   console.log(req.headers)
+
+  ctx.set("Access-Control-Allow-Origin", "*");
+  ctx.set("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+  ctx.set("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+
+  // console.log(ctx.request);
+  if (ctx.request.method !== 'OPTIONS') {
+    return next();
+  } else {
+    ctx.body = 'options';
+    ctx.status = 200;
+  }
+
+
   next();
 });
 
@@ -100,7 +114,7 @@ app.get('/status', (req, res) => {
   } else {
     res.json({
       size: 0,
-    });    
+    });
   }
 });
 
